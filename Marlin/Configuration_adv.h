@@ -277,7 +277,7 @@
 #endif
 
 // Show extra position information with 'M114 D'
-//#define M114_DETAIL
+#define M114_DETAIL // CO Enabled
 
 // Show Temperature ADC value
 // Enable for M105 to include ADC values read from temperature sensors.
@@ -367,8 +367,8 @@
  *
  * Define one or both of these to override the default 0-255 range.
  */
-//#define FAN_MIN_PWM 50
-//#define FAN_MAX_PWM 128
+#define FAN_MIN_PWM 40  // CO enabled 
+#define FAN_MAX_PWM 128 // CO enabled (just safety 2x 12V in series, if one dies/shortcuts still only 12V)
 
 /**
  * FAST PWM FAN Settings
@@ -411,7 +411,7 @@
  * Multiple extruders can be assigned to the same pin in which case
  * the fan will turn on when any selected extruder is above the threshold.
  */
-#define E0_AUTO_FAN_PIN -1
+#define E0_AUTO_FAN_PIN FAN1_PIN // CO for SKR v1.3
 #define E1_AUTO_FAN_PIN -1
 #define E2_AUTO_FAN_PIN -1
 #define E3_AUTO_FAN_PIN -1
@@ -508,12 +508,12 @@
 //
 // For Z set the number of stepper drivers
 //
-#define NUM_Z_STEPPER_DRIVERS 1   // (1-4) Z options change based on how many
+#define NUM_Z_STEPPER_DRIVERS 2   // (1-4) Z options change based on how many
 
 #if NUM_Z_STEPPER_DRIVERS > 1
-  //#define Z_MULTI_ENDSTOPS
+  //#define Z_MULTI_ENDSTOPS // CO DUAL ENDSTOP
   #if ENABLED(Z_MULTI_ENDSTOPS)
-    #define Z2_USE_ENDSTOP          _XMAX_
+    #define Z2_USE_ENDSTOP          _YMAX_ // CO, was _XMAX_ (see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png)
     #define Z2_ENDSTOP_ADJUSTMENT   0
     #if NUM_Z_STEPPER_DRIVERS >= 3
       #define Z3_USE_ENDSTOP        _YMAX_
@@ -582,12 +582,12 @@
 // @section homing
 
 // Homing hits each endstop, retracts by these distances, then does a slower bump.
-#define X_HOME_BUMP_MM 5
-#define Y_HOME_BUMP_MM 5
-#define Z_HOME_BUMP_MM 2
+#define X_HOME_BUMP_MM 0 // CO because of sensorless homing, was 5
+#define Y_HOME_BUMP_MM 0 // CO because of sensorless homing, was 5
+#define Z_HOME_BUMP_MM 0
 #define HOMING_BUMP_DIVISOR { 2, 2, 4 }  // Re-Bump Speed Divisor (Divides the Homing Feedrate)
-//#define QUICK_HOME                     // If homing includes X and Y, do a diagonal move initially
-//#define HOMING_BACKOFF_MM { 2, 2, 2 }  // (mm) Move away from the endstops after homing
+//#define QUICK_HOME                     // CO disabled since sensorless did not work fine  // If homing includes X and Y, do a diagonal move initially
+#define HOMING_BACKOFF_MM { 10, 10, 0 }   // CO DUAL ENDSTOP // CO enabled // (mm) Move away from the endstops after homing
 
 // When G28 is called, this option will make Y home before X
 //#define HOME_Y_BEFORE_X
@@ -613,7 +613,7 @@
 
   // Safety: The probe needs time to recognize the command.
   //         Minimum command delay (ms). Enable and increase if needed.
-  //#define BLTOUCH_DELAY 500
+  #define BLTOUCH_DELAY 750 // CO was 500
 
   /**
    * Settings for BLTOUCH Classic 1.2, 1.3 or BLTouch Smart 1.0, 2.0, 2.2, 3.0, 3.1, and most clones:
@@ -666,12 +666,12 @@
  * Z Steppers Auto-Alignment
  * Add the G34 command to align multiple Z steppers using a bed probe.
  */
-//#define Z_STEPPER_AUTO_ALIGN
+#define Z_STEPPER_AUTO_ALIGN // CO DUAL enabled
 #if ENABLED(Z_STEPPER_AUTO_ALIGN)
   // Define probe X and Y positions for Z1, Z2 [, Z3 [, Z4]]
   // If not defined, probe limits will be used.
   // Override with 'M422 S<index> X<pos> Y<pos>'
-  //#define Z_STEPPER_ALIGN_XY { {  10, 190 }, { 100,  10 }, { 190, 190 } }
+  #define Z_STEPPER_ALIGN_XY { {  60, 180 }, { 180, 110 } } // CO, was { {  10, 180 }, { 190, 190 } } // CO, was { {  10, 190 }, { 100,  10 }, { 190, 190 } }
 
   /**
    * Orientation for the automatically-calculated probe positions.
@@ -713,7 +713,7 @@
 
   // On a 300mm bed a 5% grade would give a misalignment of ~1.5cm
   #define G34_MAX_GRADE              5    // (%) Maximum incline that G34 will handle
-  #define Z_STEPPER_ALIGN_ITERATIONS 5    // Number of iterations to apply during alignment
+  #define Z_STEPPER_ALIGN_ITERATIONS 10  // CO, was 5    // Number of iterations to apply during alignment
   #define Z_STEPPER_ALIGN_ACC        0.02 // Stop iterating early if the accuracy is better than this
   #define RESTORE_LEVELING_AFTER_G34      // Restore leveling after G34 is done?
 #endif
@@ -765,7 +765,7 @@
 // Backlash Compensation
 // Adds extra movement to axes on direction-changes to account for backlash.
 //
-//#define BACKLASH_COMPENSATION
+#define BACKLASH_COMPENSATION // CO Enabled
 #if ENABLED(BACKLASH_COMPENSATION)
   // Define values for backlash distance and correction.
   // If BACKLASH_GCODE is enabled these values are the defaults.
@@ -777,7 +777,7 @@
   //#define BACKLASH_SMOOTHING_MM 3 // (mm)
 
   // Add runtime configuration and tuning of backlash values (M425)
-  //#define BACKLASH_GCODE
+  #define BACKLASH_GCODE // CO Enabled
 
   #if ENABLED(BACKLASH_GCODE)
     // Measure the Z backlash when probing (G29) and set with "M425 Z"
@@ -948,7 +948,7 @@
 #if HAS_LCD_MENU
 
   // Include a page of printer information in the LCD Main Menu
-  //#define LCD_INFO_MENU
+  #define LCD_INFO_MENU // CO enabled
   #if ENABLED(LCD_INFO_MENU)
     //#define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
   #endif
@@ -976,16 +976,16 @@
 #endif // HAS_LCD_MENU
 
 // Scroll a longer status message into view
-//#define STATUS_MESSAGE_SCROLLING
+#define STATUS_MESSAGE_SCROLLING // CO Enabled
 
 // On the Info Screen, display XY with one decimal place when possible
-//#define LCD_DECIMAL_SMALL_XY
+#define LCD_DECIMAL_SMALL_XY // CO enabled
 
 // The timeout (in ms) to return to the status screen from sub-menus
-//#define LCD_TIMEOUT_TO_STATUS 15000
+//#define LCD_TIMEOUT_TO_STATUS 15000 // CO I feel this doesn't work after increasing
 
 // Add an 'M73' G-code to set the current percentage
-//#define LCD_SET_PROGRESS_MANUALLY
+#define LCD_SET_PROGRESS_MANUALLY // CO Enabled
 
 // Show the E position (filament used) during printing
 //#define LCD_SHOW_E_TOTAL
@@ -1040,7 +1040,7 @@
    * an option on the LCD screen to continue the print from the last-known
    * point in the file.
    */
-  //#define POWER_LOSS_RECOVERY
+  #define POWER_LOSS_RECOVERY  // CO Enabled
   #if ENABLED(POWER_LOSS_RECOVERY)
     //#define BACKUP_POWER_SUPPLY       // Backup power / UPS to move the steppers on power loss
     //#define POWER_LOSS_ZRAISE       2 // (mm) Z axis raise on resume (on power loss with UPS)
@@ -1264,8 +1264,8 @@
   //#define STATUS_ALT_FAN_BITMAP     // Use the alternative fan bitmap
   //#define STATUS_FAN_FRAMES 3       // :[0,1,2,3,4] Number of fan animation frames
   //#define STATUS_HEAT_PERCENT       // Show heating in a progress bar
-  //#define BOOT_MARLIN_LOGO_SMALL    // Show a smaller Marlin logo on the Boot Screen (saving 399 bytes of flash)
-  //#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~‭3260 (or ~940) bytes of PROGMEM.
+  #define BOOT_MARLIN_LOGO_SMALL    // CO Enabled // Show a smaller Marlin logo on the Boot Screen (saving 399 bytes of flash)
+  #define BOOT_MARLIN_LOGO_ANIMATED // CO Enabled // Animated Marlin logo. Costs ~‭3260 (or ~940) bytes of PROGMEM.
 
   // Frivolous Game Options
   //#define MARLIN_BRICKOUT
@@ -1445,32 +1445,31 @@
  *
  * Warning: Does not respect endstops!
  */
-//#define BABYSTEPPING
+#define BABYSTEPPING // CO Enabled
 #if ENABLED(BABYSTEPPING)
   //#define INTEGRATED_BABYSTEPPING         // EXPERIMENTAL integration of babystepping into the Stepper ISR
-  //#define BABYSTEP_WITHOUT_HOMING
-  //#define BABYSTEP_XY                     // Also enable X/Y Babystepping. Not supported on DELTA!
+  #define BABYSTEP_WITHOUT_HOMING // CO enabled, needed e.g. when doing a "G28 O"
+  #define BABYSTEP_XY                     // CO enabled // Also enable X/Y Babystepping. Not supported on DELTA!
   #define BABYSTEP_INVERT_Z false           // Change if Z babysteps should go the other way
   #define BABYSTEP_MULTIPLICATOR_Z  1       // Babysteps are very small. Increase for faster motion.
   #define BABYSTEP_MULTIPLICATOR_XY 1
 
-  //#define DOUBLECLICK_FOR_Z_BABYSTEPPING  // Double-click on the Status Screen for Z Babystepping.
+  #define DOUBLECLICK_FOR_Z_BABYSTEPPING  // CO enabled // Double-click on the Status Screen for Z Babystepping.
   #if ENABLED(DOUBLECLICK_FOR_Z_BABYSTEPPING)
     #define DOUBLECLICK_MAX_INTERVAL 1250   // Maximum interval between clicks, in milliseconds.
                                             // Note: Extra time may be added to mitigate controller latency.
-    //#define BABYSTEP_ALWAYS_AVAILABLE     // Allow babystepping at all times (not just during movement).
-    //#define MOVE_Z_WHEN_IDLE              // Jump to the move Z menu on doubleclick when printer is idle.
+    //#define BABYSTEP_ALWAYS_AVAILABLE       // CO disabled // CO enabled // Allow babystepping at all times (not just during movement).
+    #define MOVE_Z_WHEN_IDLE              // CO Enabled // Jump to the move Z menu on doubleclick when printer is idle.
     #if ENABLED(MOVE_Z_WHEN_IDLE)
       #define MOVE_Z_IDLE_MULTIPLICATOR 1   // Multiply 1mm by this factor for the move step size.
     #endif
   #endif
 
-  //#define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
-
-  //#define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
+  #define BABYSTEP_DISPLAY_TOTAL          // CO Enabled // Display total babysteps since last G28
+  #define BABYSTEP_ZPROBE_OFFSET            // CO Reenabled // CO Disabled since it confuses me (same name in menu) // CO enabled // Combine M851 Z and Babystepping
   #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
     //#define BABYSTEP_HOTEND_Z_OFFSET      // For multiple hotends, babystep relative Z offsets
-    //#define BABYSTEP_ZPROBE_GFX_OVERLAY   // Enable graphical overlay on Z-offset editor
+    #define BABYSTEP_ZPROBE_GFX_OVERLAY   // CO Enabled // Enable graphical overlay on Z-offset editor
   #endif
 #endif
 
@@ -1492,10 +1491,10 @@
  * See http://marlinfw.org/docs/features/lin_advance.html for full instructions.
  * Mention @Sebastianv650 on GitHub to alert the author of any issues.
  */
-//#define LIN_ADVANCE
+#define LIN_ADVANCE // CO enabled
 #if ENABLED(LIN_ADVANCE)
   //#define EXTRA_LIN_ADVANCE_K // Enable for second linear advance constants
-  #define LIN_ADVANCE_K 0.22    // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 0.0     // CO was 0.22    // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG            // If enabled, this will generate debug information output over USB.
 #endif
 
@@ -1618,7 +1617,7 @@
 #endif
 
 // Support for G5 with XYZE destination and IJPQ offsets. Requires ~2666 bytes.
-//#define BEZIER_CURVE_SUPPORT
+#define BEZIER_CURVE_SUPPORT // CO Enabled
 
 /**
  * G38 Probe Target
@@ -1663,7 +1662,7 @@
  *
  * Override the default value based on the driver type set in Configuration.h.
  */
-//#define MINIMUM_STEPPER_PULSE 2
+//#define MINIMUM_STEPPER_PULSE 2 // CO set to 1 (suggested for SKR at least)
 
 /**
  * Maximum stepping rate (in Hz) the stepper driver allows
@@ -1742,7 +1741,7 @@
 // enter the serial receive buffer, so they cannot be blocked.
 // Currently handles M108, M112, M410
 // Does not work on boards using AT90USB (USBCON) processors!
-//#define EMERGENCY_PARSER
+#define EMERGENCY_PARSER // CO enabled
 
 // Bad Serial-connections can miss a received command by sending an 'ok'
 // Therefore some clients abort after 30 seconds in a timeout.
@@ -1783,21 +1782,21 @@
  * Note that M207 / M208 / M209 settings are saved to EEPROM.
  *
  */
-//#define FWRETRACT
+#define FWRETRACT  // CO Enabled
 #if ENABLED(FWRETRACT)
-  #define FWRETRACT_AUTORETRACT           // Override slicer retractions
+  //#define FWRETRACT_AUTORETRACT         // CO disabled magic  // costs ~500 bytes of PROGMEM
   #if ENABLED(FWRETRACT_AUTORETRACT)
-    #define MIN_AUTORETRACT 0.1           // (mm) Don't convert E moves under this length
-    #define MAX_AUTORETRACT 10.0          // (mm) Don't convert E moves over this length
+    #define MIN_AUTORETRACT 0.1           // When auto-retract is on, convert E moves of this length and over
+    #define MAX_AUTORETRACT 10.0          // Upper limit for auto-retract conversion
   #endif
-  #define RETRACT_LENGTH 3                // (mm) Default retract length (positive value)
-  #define RETRACT_LENGTH_SWAP 13          // (mm) Default swap retract length (positive value)
-  #define RETRACT_FEEDRATE 45             // (mm/s) Default feedrate for retracting
-  #define RETRACT_ZRAISE 0                // (mm) Default retract Z-raise
-  #define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
-  #define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
-  #define RETRACT_RECOVER_FEEDRATE 8      // (mm/s) Default feedrate for recovering from retraction
-  #define RETRACT_RECOVER_FEEDRATE_SWAP 8 // (mm/s) Default feedrate for recovering from swap retraction
+  #define RETRACT_LENGTH 4.5 // CO was 3  // Default retract length (positive mm)
+  #define RETRACT_LENGTH_SWAP 13          // Default swap retract length (positive mm), for extruder change
+  #define RETRACT_FEEDRATE 45             // Default feedrate for retracting (mm/s)
+  #define RETRACT_ZRAISE 0                // Default retract Z-raise (mm)
+  #define RETRACT_RECOVER_LENGTH 0        // Default additional recover length (mm, added to retract length when recovering)
+  #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
+  #define RETRACT_RECOVER_FEEDRATE RETRACT_FEEDRATE // CO was 8      // Default feedrate for recovering from retraction (mm/s)
+  #define RETRACT_RECOVER_FEEDRATE_SWAP 8 // Default feedrate for recovering from swap retraction (mm/s)
   #if ENABLED(MIXING_EXTRUDER)
     //#define RETRACT_SYNC_MIXING         // Retract and restore all mixing steppers simultaneously
   #endif
@@ -1845,14 +1844,14 @@
  * Requires NOZZLE_PARK_FEATURE.
  * This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
  */
-//#define ADVANCED_PAUSE_FEATURE
+#define ADVANCED_PAUSE_FEATURE // CO Enabled
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
   #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
                                                   // This short retract is done immediately, before parking the nozzle.
   #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     10  // (mm/s) Unload filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_UNLOAD_ACCEL        25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_UNLOAD_LENGTH      100  // (mm) The length of filament for a complete unload.
+  #define FILAMENT_CHANGE_UNLOAD_LENGTH      450  // CO was 100 // (mm) The length of filament for a complete unload.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
                                                   //   Set to 0 for manual unloading.
@@ -1861,12 +1860,12 @@
                                                   // 0 to disable start loading and skip to fast load only
   #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE   6  // (mm/s) Load filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_FAST_LOAD_ACCEL     25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     0  // (mm) Load length of filament, from extruder gear to nozzle.
+  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     FILAMENT_CHANGE_UNLOAD_LENGTH // CO was 0  // (mm) Load length of filament, from extruder gear to nozzle.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
-  //#define ADVANCED_PAUSE_CONTINUOUS_PURGE       // Purge continuously up to the purge length until interrupted.
+  //#define ADVANCED_PAUSE_CONTINUOUS_PURGE   // CO disabled // CO enabled    // Purge continuously up to the purge length until interrupted.
   #define ADVANCED_PAUSE_PURGE_FEEDRATE        3  // (mm/s) Extrude feedrate (after loading). Should be slower than load feedrate.
-  #define ADVANCED_PAUSE_PURGE_LENGTH         50  // (mm) Length to extrude after loading.
+  #define ADVANCED_PAUSE_PURGE_LENGTH         10 // CO was 50  // (mm) Length to extrude after loading.
                                                   //   Set to 0 for manual extrusion.
                                                   //   Filament can be extruded repeatedly from the Filament Change menu
                                                   //   until extrusion is consistent, and to purge old filament.
@@ -1877,16 +1876,15 @@
   #define FILAMENT_UNLOAD_PURGE_RETRACT       13  // (mm) Unload initial retract length.
   #define FILAMENT_UNLOAD_PURGE_DELAY       5000  // (ms) Delay for the filament to cool after retract.
   #define FILAMENT_UNLOAD_PURGE_LENGTH         8  // (mm) An unretract is done, then this length is purged.
-  #define FILAMENT_UNLOAD_PURGE_FEEDRATE      25  // (mm/s) feedrate to purge before unload
 
   #define PAUSE_PARK_NOZZLE_TIMEOUT           45  // (seconds) Time limit before the nozzle is turned off for safety.
   #define FILAMENT_CHANGE_ALERT_BEEPS         10  // Number of alert beeps to play when a response is needed.
   #define PAUSE_PARK_NO_STEPPER_TIMEOUT           // Enable for XYZ steppers to stay powered on during filament change.
 
-  //#define PARK_HEAD_ON_PAUSE                    // Park the nozzle during pause and filament change.
+  #define PARK_HEAD_ON_PAUSE                      // CO enabled // Park the nozzle during pause and filament change.
   //#define HOME_BEFORE_FILAMENT_CHANGE           // Ensure homing has been completed prior to parking for filament change
 
-  //#define FILAMENT_LOAD_UNLOAD_GCODES           // Add M701/M702 Load/Unload G-codes, plus Load/Unload in the LCD Prepare menu.
+  #define FILAMENT_LOAD_UNLOAD_GCODES             // CO enabled // Add M701/M702 Load/Unload G-codes, plus Load/Unload in the LCD Prepare menu.
   //#define FILAMENT_UNLOAD_ALL_EXTRUDERS         // Allow M702 to unload all extruders above a minimum target temp (as set by M302)
 #endif
 
@@ -2022,10 +2020,10 @@
   #define INTERPOLATE       true  // Interpolate X/Y/Z_MICROSTEPS to 256
 
   #if AXIS_IS_TMC(X)
-    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT     600  // CO, from FB default 800 // (mA) RMS current. Multiply by 1.414 for peak current.
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
-    #define X_MICROSTEPS     16    // 0..256
-    #define X_RSENSE          0.11
+    #define X_MICROSTEPS   16  // 0..256
+    #define X_RSENSE     0.11
     #define X_CHAIN_POS      -1    // <=0 : Not chained. 1 : MCU MOSI connected. 2 : Next in chain, ...
   #endif
 
@@ -2038,11 +2036,11 @@
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       800
+    #define Y_CURRENT     600  // CO, from FB default 800
     #define Y_CURRENT_HOME  Y_CURRENT
-    #define Y_MICROSTEPS     16
-    #define Y_RSENSE          0.11
-    #define Y_CHAIN_POS      -1
+    #define Y_MICROSTEPS   16
+    #define Y_RSENSE     0.11
+    #define Y_CHAIN_POS    -1
   #endif
 
   #if AXIS_IS_TMC(Y2)
@@ -2206,7 +2204,7 @@
    * Use for drivers that do not use a dedicated enable pin, but rather handle the same
    * function through a communication line such as SPI or UART.
    */
-  //#define SOFTWARE_DRIVER_ENABLE
+  //#define SOFTWARE_DRIVER_ENABLE // CO DO NOT ENABLE!!
 
   /**
    * TMC2130, TMC2160, TMC2208, TMC2209, TMC5130 and TMC5160 only
@@ -2231,7 +2229,7 @@
    * Define you own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_12V
+  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V // CO Changed from 12V
 
   /**
    * Monitor Trinamic drivers for error conditions,
@@ -2244,8 +2242,7 @@
    * M912 - Clear stepper driver overtemperature pre-warn condition flag.
    * M122 - Report driver parameters (Requires TMC_DEBUG)
    */
-  //#define MONITOR_DRIVER_STATUS
-
+  #define MONITOR_DRIVER_STATUS // CO Enabled (problem with Arduino only)
   #if ENABLED(MONITOR_DRIVER_STATUS)
     #define CURRENT_STEP_DOWN     50  // [mA]
     #define REPORT_CURRENT_CHANGE
@@ -2259,17 +2256,15 @@
    * STEALTHCHOP_(XY|Z|E) must be enabled to use HYBRID_THRESHOLD.
    * M913 X/Y/Z/E to live tune the setting
    */
-  //#define HYBRID_THRESHOLD
-
-  #define X_HYBRID_THRESHOLD     100  // [mm/s]
+#define HYBRID_THRESHOLD // CO Enabled (see https://www.youtube.com/watch?v=SyMNwmO5Nxo)
+  #define X_HYBRID_THRESHOLD     200 // CO, was 100 // [mm/s]
   #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     100
+  #define Y_HYBRID_THRESHOLD     200 // CO, was 100
   #define Y2_HYBRID_THRESHOLD    100
-  #define Z_HYBRID_THRESHOLD       3
-  #define Z2_HYBRID_THRESHOLD      3
+  #define Z_HYBRID_THRESHOLD     200 // CO, was 100
+  #define Z2_HYBRID_THRESHOLD    200 // CO DUAL, was 3
   #define Z3_HYBRID_THRESHOLD      3
-  #define Z4_HYBRID_THRESHOLD      3
-  #define E0_HYBRID_THRESHOLD     30
+  #define E0_HYBRID_THRESHOLD     65 // CO, was 50/30
   #define E1_HYBRID_THRESHOLD     30
   #define E2_HYBRID_THRESHOLD     30
   #define E3_HYBRID_THRESHOLD     30
@@ -2301,7 +2296,7 @@
    * IMPROVE_HOMING_RELIABILITY tunes acceleration and jerk when
    * homing and adds a guard period for endstop triggering.
    */
-  //#define SENSORLESS_HOMING // StallGuard capable drivers only
+  #define SENSORLESS_HOMING // CO Enabled // StallGuard capable drivers only
 
   /**
    * Use StallGuard2 to probe the bed with the nozzle.
@@ -2313,25 +2308,26 @@
 
   #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY  8
+    #define X_STALL_SENSITIVITY  69 // CO was 69
     #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-    #define Y_STALL_SENSITIVITY  8
-    //#define Z_STALL_SENSITIVITY  8
+    #define Y_STALL_SENSITIVITY  65 // CO was 65
+    //#define Z_STALL_SENSITIVITY  20   // CO DUAL SENSORLESS Z
+    //#define Z2_STALL_SENSITIVITY  20   // CO DUAL SENSORLESS Z
     //#define SPI_ENDSTOPS              // TMC2130 only
-    //#define IMPROVE_HOMING_RELIABILITY
+    //#define IMPROVE_HOMING_RELIABILITY // CO Disabled, maybe it helps false triggering x sensorless homing // CO Enabled
   #endif
 
   /**
    * Beta feature!
    * Create a 50/50 square wave step pulse optimal for stepper drivers.
    */
-  //#define SQUARE_WAVE_STEPPING
+  #define SQUARE_WAVE_STEPPING // CO Enabled
 
   /**
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continous reporting.
    */
-  //#define TMC_DEBUG
+  #define TMC_DEBUG // CO Enabled (see https://www.youtube.com/watch?v=SyMNwmO5Nxo)
 
   /**
    * You can set your own advanced settings by filling in predefined functions.
@@ -2344,7 +2340,16 @@
    *   stepperY.intpol(0); \
    * }
    */
-  #define TMC_ADV() {  }
+    // no longer needed
+  /**
+    #define TMC_ADV() { \
+    stepperX.dedge(true); \
+    stepperY.dedge(true); \
+    stepperZ.dedge(true); \
+    stepperE0.dedge(true); \
+   }
+  */
+  #define TMC_ADV() {}
 
 #endif // HAS_TRINAMIC
 
@@ -2865,9 +2870,9 @@
  * Host Prompt Support enables Marlin to use the host for user prompts so
  * filament runout and other processes can be managed from the host side.
  */
-//#define HOST_ACTION_COMMANDS
+#define HOST_ACTION_COMMANDS // CO enabled
 #if ENABLED(HOST_ACTION_COMMANDS)
-  //#define HOST_PROMPT_SUPPORT
+  //#define HOST_PROMPT_SUPPORT // CO disabled, when answered on printer not updated in octoprint // CO, retry // CO disabled (was annoying) // CO enabled
 #endif
 
 /**
@@ -2875,7 +2880,7 @@
  *
  * Implement M486 to allow Marlin to skip objects
  */
-//#define CANCEL_OBJECTS
+#define CANCEL_OBJECTS // CO Enabled
 
 /**
  * I2C position encoders for closed loop control.
@@ -3122,7 +3127,7 @@
 //
 // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
 //
-//#define PINS_DEBUGGING
+#define PINS_DEBUGGING // CO enabled
 
 // Enable Marlin dev mode which adds some special commands
 //#define MARLIN_DEV_MODE
