@@ -1888,6 +1888,7 @@
   #define FILAMENT_UNLOAD_PURGE_RETRACT       13  // (mm) Unload initial retract length.
   #define FILAMENT_UNLOAD_PURGE_DELAY       5000  // (ms) Delay for the filament to cool after retract.
   #define FILAMENT_UNLOAD_PURGE_LENGTH         8  // (mm) An unretract is done, then this length is purged.
+  #define FILAMENT_UNLOAD_PURGE_FEEDRATE      25  // (mm/s) feedrate to purge before unload
 
   #define PAUSE_PARK_NOZZLE_TIMEOUT           45  // (seconds) Time limit before the nozzle is turned off for safety.
   #define FILAMENT_CHANGE_ALERT_BEEPS         10  // Number of alert beeps to play when a response is needed.
@@ -2276,7 +2277,7 @@
   #define Z_HYBRID_THRESHOLD     200 // CO, was 100
   #define Z2_HYBRID_THRESHOLD    200 // CO DUAL, was 3
   #define Z3_HYBRID_THRESHOLD      3
-  #define E0_HYBRID_THRESHOLD     65 // CO, was 50/30
+  #define E0_HYBRID_THRESHOLD    200 // CO was 65 // CO, was 50/30
   #define E1_HYBRID_THRESHOLD     30
   #define E2_HYBRID_THRESHOLD     30
   #define E3_HYBRID_THRESHOLD     30
@@ -2312,9 +2313,9 @@
 
   #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY  69 // CO was 69
+    #define X_STALL_SENSITIVITY  78 // CO was 69
     #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-    #define Y_STALL_SENSITIVITY  65 // CO was 65
+    #define Y_STALL_SENSITIVITY  77 // CO was 65
     //#define Z_STALL_SENSITIVITY  20   // CO DUAL SENSORLESS Z
     //#define Z2_STALL_SENSITIVITY  20   // CO DUAL SENSORLESS Z
     //#define SPI_ENDSTOPS              // TMC2130 only

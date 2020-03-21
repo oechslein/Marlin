@@ -132,7 +132,7 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_BIGTREE_SKR_V1_3
+  #define MOTHERBOARD BOARD_BTT_SKR_V1_3
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
@@ -527,10 +527,6 @@
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
   // FIND YOUR OWN: "M303 U1 E-1 S60" to run autotune on the bed at 60 degrees C.
-  // Creality Ender-3 (CO)
-  //#define DEFAULT_bedKp 275.71
-  //#define DEFAULT_bedKi 54.28
-  //#define DEFAULT_bedKd 350.08
   #define DEFAULT_bedKp 193.70
   #define DEFAULT_bedKi 36.55
   #define DEFAULT_bedKd 684.40
@@ -724,7 +720,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 150, 150, 150, 150 } // CO was { 150, 500, 50, 100 } // CO from FB, default { 500, 500, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 500, 500, 10, 150 } // CO was { 150, 150, 150, 150 } // CO was { 150, 500, 50, 100 } // CO from FB, default { 500, 500, 5, 25 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -952,7 +948,7 @@
 //#define NOZZLE_TO_PROBE_OFFSET {-38, +6, -0.50}
 
 // Hero Me Gen 3 E3D V6 (https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png)
-#define NOZZLE_TO_PROBE_OFFSET {-50, -8, -2.650}
+#define NOZZLE_TO_PROBE_OFFSET {-50, -8, -2.12}
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 5 // CO was 10
@@ -1318,18 +1314,18 @@
 #define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
-  #define LEVEL_CORNERS_INSET 30    // (mm) An inset for corner leveling
-  #define LEVEL_CORNERS_Z_HOP  4.0  // (mm) Move nozzle up before moving between corners
-  #define LEVEL_CORNERS_HEIGHT 0.1  // (mm) Z height of nozzle at leveling points
+  #define LEVEL_CORNERS_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
+  #define LEVEL_CORNERS_HEIGHT      0.0   // (mm) Z height of nozzle at leveling points
+  #define LEVEL_CORNERS_Z_HOP       4.0   // (mm) Z height of nozzle between leveling points
   #define LEVEL_CENTER_TOO         // CO Enabled // Move to the center after the last corner
 #endif
+
 
 /**
  * Commands to execute at the end of G29 probing.
  * Useful to retract or move the Z probe out of the way.
  */
 //#define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10"
-#define Z_PROBE_END_SCRIPT ""
 
 
 // @section homing
