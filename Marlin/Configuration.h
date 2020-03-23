@@ -598,10 +598,10 @@
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
 #define USE_XMIN_PLUG // CO X sensorless, see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png
 #define USE_YMIN_PLUG // CO Y sensorless, see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png
-#define USE_ZMIN_PLUG // CO DUAL ENDSTOP, Z sensorless, see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png
-//#define USE_XMAX_PLUG
-#define USE_YMAX_PLUG // CO DUAL ENDSTOP, E1/Z2 sensorless, see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png
-#define USE_ZMAX_PLUG // CO, BL TOUCH
+#define USE_ZMIN_PLUG // CO Must be enabled, BL Touch ; was DUAL ENDSTOP, Z sensorless, see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png
+//#define USE_XMAX_PLUG // CO Filament runout sensor
+//#define USE_YMAX_PLUG // CO DUAL ENDSTOP, E1/Z2 sensorless, see https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png
+//#define USE_ZMAX_PLUG // CO, !WAS! BL TOUCH
 
 // Enable pullup for all endstops to prevent a floating state
 #define ENDSTOPPULLUPS
@@ -811,7 +811,7 @@
  *
  * Enable this option for a probe connected to the Z Min endstop pin.
  */
-//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // CO DUAL ENDSTOP, BL TOUCH mounted to Z_MAX
+#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // CO Need to enable otherwise HOMING_Z_WITH_PROBE is not true pin is overwritten below; was DUAL ENDSTOP, BL TOUCH mounted to Z_MAX
 
 /**
  * Z_MIN_PROBE_PIN
@@ -829,7 +829,7 @@
  *      - normally-open switches to 5V and D32.
  *
  */
-#define Z_MIN_PROBE_PIN P1_24  // CO, bl touch attached to ZMAX=P1_24 // Pin 32 is the RAMPS default
+//#define Z_MIN_PROBE_PIN P1_24  // CO To use zprobe as endstop it MUST be attached to Z_MIN_PIN!! ;was bl touch attached to ZMAX=P1_24 // Pin 32 is the RAMPS default
 
 /**
  * Probe Type
@@ -1054,7 +1054,7 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false // CO inverted since BMG mounted reversely
+#define INVERT_E0_DIR true // CO no reverse with pancake, was inverted since BMG mounted reversely
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
