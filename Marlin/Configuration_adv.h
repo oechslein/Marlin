@@ -369,8 +369,8 @@
  *
  * Define one or both of these to override the default 0-255 range.
  */
-#define FAN_MIN_PWM 40  // CO enabled 
-#define FAN_MAX_PWM 128 // CO enabled (just safety 2x 12V in series, if one dies/shortcuts still only 12V)
+//#define FAN_MIN_PWM 40  // Disabled again (1x12V) // CO enabled 
+//#define FAN_MAX_PWM 128 // Disabled again (1x12V) // CO enabled (just safety 2x 12V in series, if one dies/shortcuts still only 12V)
 
 /**
  * FAST PWM FAN Settings
@@ -1801,9 +1801,9 @@
     #define MIN_AUTORETRACT 0.1           // When auto-retract is on, convert E moves of this length and over
     #define MAX_AUTORETRACT 10.0          // Upper limit for auto-retract conversion
   #endif
-  #define RETRACT_LENGTH 4.5 // CO was 3  // Default retract length (positive mm)
+  #define RETRACT_LENGTH 0.8  // CO was 3  // Default retract length (positive mm)
   #define RETRACT_LENGTH_SWAP 13          // Default swap retract length (positive mm), for extruder change
-  #define RETRACT_FEEDRATE 45             // Default feedrate for retracting (mm/s)
+  #define RETRACT_FEEDRATE 35             // Default feedrate for retracting (mm/s)
   #define RETRACT_ZRAISE 0                // Default retract Z-raise (mm)
   #define RETRACT_RECOVER_LENGTH 0        // Default additional recover length (mm, added to retract length when recovering)
   #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
@@ -2226,7 +2226,7 @@
    */
   #define STEALTHCHOP_XY
   #define STEALTHCHOP_Z
-  #define STEALTHCHOP_E
+  //#define STEALTHCHOP_E // CO disabled
 
   /**
    * Optimize spreadCycle chopper parameters by using predefined parameter sets
@@ -2277,7 +2277,7 @@
   #define Z_HYBRID_THRESHOLD     200 // CO, was 100
   #define Z2_HYBRID_THRESHOLD    200 // CO DUAL, was 3
   #define Z3_HYBRID_THRESHOLD      3
-  #define E0_HYBRID_THRESHOLD    200 // CO was 65 // CO, was 50/30
+  #define E0_HYBRID_THRESHOLD     30
   #define E1_HYBRID_THRESHOLD     30
   #define E2_HYBRID_THRESHOLD     30
   #define E3_HYBRID_THRESHOLD     30

@@ -720,7 +720,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 500, 500, 10, 150 } // CO was { 150, 150, 150, 150 } // CO was { 150, 500, 50, 100 } // CO from FB, default { 500, 500, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 200, 200, 12, 152 } // CO was { 150, 150, 10, 150 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -760,7 +760,7 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-//#define CLASSIC_JERK
+#define CLASSIC_JERK  // CO TODO Enabled since new Junction Deviation has problems
 #if ENABLED(CLASSIC_JERK)
   #define DEFAULT_XJERK 10.0
   #define DEFAULT_YJERK 10.0
@@ -795,7 +795,7 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-#define S_CURVE_ACCELERATION
+//#define S_CURVE_ACCELERATION // CO TODO Disabled, leads to error with linear advance
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -948,7 +948,10 @@
 //#define NOZZLE_TO_PROBE_OFFSET {-38, +6, -0.50}
 
 // Hero Me Gen 3 E3D V6 (https://github.com/bigtreetech/BIGTREETECH-SKR-V1.3/blob/master/BTT%20SKR%20V1.3/Wiring%20diagram/SKR-V1.3-TMC2130-SPI-Mode.png)
-#define NOZZLE_TO_PROBE_OFFSET {-50, -8, -2.12}
+//#define NOZZLE_TO_PROBE_OFFSET {-50, -8, -2.12}
+
+// DD
+#define NOZZLE_TO_PROBE_OFFSET {49, 0, -2.4}
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 5 // CO was 10
@@ -1474,9 +1477,9 @@
 #define PREHEAT_1_TEMP_BED     65
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
-#define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    100
+#define PREHEAT_2_LABEL       "PETG"
+#define PREHEAT_2_TEMP_HOTEND 235
+#define PREHEAT_2_TEMP_BED    80
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
 /**
