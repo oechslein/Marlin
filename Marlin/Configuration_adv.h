@@ -3586,7 +3586,6 @@
 //
 //#define DIRECT_PIN_CONTROL
 
-
 //
 // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
 //
