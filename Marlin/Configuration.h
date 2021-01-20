@@ -74,6 +74,9 @@
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 #define STRING_DISTRIBUTION_DATE __DATE__ " " __TIME__
+#define SHORT_BUILD_VERSION "2.0.7.2E"
+#define DETAILED_BUILD_VERSION "2.0.7.2E - CO"
+
 
 /**
  * *** VENDORS PLEASE READ ***
@@ -90,7 +93,7 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-//#define SHOW_CUSTOM_BOOTSCREEN // CO Disabled to startup faster
+#define SHOW_CUSTOM_BOOTSCREEN // CO Disabled to startup faster
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
 #define CUSTOM_STATUS_SCREEN_IMAGE
@@ -417,7 +420,7 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
-#define TEMP_SENSOR_0 999 // CO was 5 // CO changed to new thermistor
+#define TEMP_SENSOR_0 5 // CO changed to new thermistor
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
@@ -425,12 +428,12 @@
 #define TEMP_SENSOR_5 0
 #define TEMP_SENSOR_6 0
 #define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 998 // CO was 1
+#define TEMP_SENSOR_BED 1
 #define TEMP_SENSOR_PROBE 0
 #define TEMP_SENSOR_CHAMBER 0
 
 // CO DEBUGGING ONLY
-//#define BOGUS_TEMPERATURE_GRACE_PERIOD    2000 // CO DEBUGGING ONLY
+#define BOGUS_TEMPERATURE_GRACE_PERIOD    20000 // CO DEBUGGING ONLY
 // CO DEBUGGING ONLY
 
 // Dummy thermistor constant temperature readings, for use with 998 and 999
@@ -853,7 +856,7 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // CO Need to enable otherwise HOMING_Z_WITH_PROBE is not true pin is overwritten below; was DUAL ENDSTOP, BL TOUCH mounted to Z_MAX
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // CO Disabled for SKRv1.4 // Enabled
 
 // Force the use of the probe for Z-axis homing
 #define USE_PROBE_FOR_Z_HOMING  // CO Enabled
