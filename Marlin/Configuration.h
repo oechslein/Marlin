@@ -70,7 +70,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(CO, Ender-3 Pro SKR1.3)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "Christoph Oechslein" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 #define STRING_DISTRIBUTION_DATE __DATE__ " " __TIME__
@@ -1549,6 +1549,7 @@
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
  */
 #define NOZZLE_PARK_FEATURE // CO enabled
+
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
   #define NOZZLE_PARK_POINT { (X_MIN_POS + 10), (Y_MAX_POS - 10), 20 }
@@ -1597,6 +1598,7 @@
  * Attention: EXPERIMENTAL. G-code arguments may change.
  */
 //#define NOZZLE_CLEAN_FEATURE // CO it is cleaning without extrusion!! // CO Enabled
+
 #if ENABLED(NOZZLE_CLEAN_FEATURE)
   // Default number of pattern repetitions
   #define NOZZLE_CLEAN_STROKES  12

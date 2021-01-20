@@ -1075,14 +1075,14 @@
 
   // Add Probe Z Offset calibration to the Z Probe Offsets menu
   #if HAS_BED_PROBE
-    //#define PROBE_OFFSET_WIZARD
+    #define PROBE_OFFSET_WIZARD  // CO Enabled
     #if ENABLED(PROBE_OFFSET_WIZARD)
       #define PROBE_OFFSET_START -4.0   // Estimated nozzle-to-probe Z offset, plus a little extra
     #endif
   #endif
 
   // Include a page of printer information in the LCD Main Menu
-  #define LCD_INFO_MENU // CO enabled
+  #define LCD_INFO_MENU  // CO Enabled
   #if ENABLED(LCD_INFO_MENU)
     //#define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
   #endif
@@ -1181,7 +1181,8 @@
 
   //#define MENU_ADDAUTOSTART               // Add a menu option to run auto#.g files
 
-  #define EVENT_GCODE_SD_ABORT "G28XY"      // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
+  //#define EVENT_GCODE_SD_ABORT "G28XY"      // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
+  #define EVENT_GCODE_SD_ABORT "\nM118 A1 action:cancel\nM569 S1 XY\nG28XY\nM569 S0 XY" // CO Enabled for octoprint
 
   #if ENABLED(PRINTER_EVENT_LEDS)
     #define PE_LEDS_COMPLETED_TIME  (30*60) // (seconds) Time to keep the LED "done" color before restoring normal illumination
@@ -1618,7 +1619,7 @@
   #if ENABLED(DOUBLECLICK_FOR_Z_BABYSTEPPING)
     #define DOUBLECLICK_MAX_INTERVAL 1250   // Maximum interval between clicks, in milliseconds.
                                             // Note: Extra time may be added to mitigate controller latency.
-    #define MOVE_Z_WHEN_IDLE              // CO Enabled // Jump to the move Z menu on doubleclick when printer is idle.
+    //#define MOVE_Z_WHEN_IDLE              // Jump to the move Z menu on doubleclick when printer is idle.
     #if ENABLED(MOVE_Z_WHEN_IDLE)
       #define MOVE_Z_IDLE_MULTIPLICATOR 1   // Multiply 1mm by this factor for the move step size.
     #endif
@@ -1959,7 +1960,7 @@
 #define SERIAL_OVERRUN_PROTECTION
 
 // For serial echo, the number of digits after the decimal point
-//#define SERIAL_FLOAT_PRECISION 4
+#define SERIAL_FLOAT_PRECISION 4 // CO Enabled because of TFT35 
 
 // @section extras
 
@@ -2487,6 +2488,7 @@
    * M122 - Report driver parameters (Requires TMC_DEBUG)
    */
   #define MONITOR_DRIVER_STATUS // CO Enabled (problem with Arduino only)
+
   #if ENABLED(MONITOR_DRIVER_STATUS)
     #define CURRENT_STEP_DOWN     50  // [mA]
     #define REPORT_CURRENT_CHANGE
@@ -2602,7 +2604,7 @@
     stepperE0.dedge(true); \
    }
   */
-  #define TMC_ADV() {}
+  #define TMC_ADV() { }
 
 #endif // HAS_TRINAMIC_CONFIG
 
@@ -3116,7 +3118,7 @@
  */
 #define EXTENDED_CAPABILITIES_REPORT
 #if ENABLED(EXTENDED_CAPABILITIES_REPORT)
-  //#define M115_GEOMETRY_REPORT
+  #define M115_GEOMETRY_REPORT // CO Enabled because of TFT35
 #endif
 
 /**
@@ -3168,7 +3170,7 @@
 //#define M114_REALTIME       // Real current position based on forward kinematics
 //#define M114_LEGACY         // M114 used to synchronize on every call. Enable if needed.
 
-//#define REPORT_FAN_CHANGE   // Report the new fan speed when changed by M106 (and others)
+#define REPORT_FAN_CHANGE   // CO Enabled because of TFT35 // Report the new fan speed when changed by M106 (and others)
 
 /**
  * Set the number of proportional font spaces required to fill up a typical character space.
