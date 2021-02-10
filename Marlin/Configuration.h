@@ -87,10 +87,10 @@
  */
 
 // Show the Marlin bootscreen on startup. ** ENABLE FOR PRODUCTION **
-#define SHOW_BOOTSCREEN
+//#define SHOW_BOOTSCREEN // CO Disabled to speed up booting
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-//#define SHOW_CUSTOM_BOOTSCREEN // CO Disabled to startup faster
+//#define SHOW_CUSTOM_BOOTSCREEN // CO Disabled to speed up booting
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
 #define CUSTOM_STATUS_SCREEN_IMAGE
@@ -444,11 +444,11 @@
 //#define TEMP_SENSOR_1_AS_REDUNDANT
 #define MAX_REDUNDANT_TEMP_SENSOR_DIFF 10
 
-#define TEMP_RESIDENCY_TIME     10  // CO TODO Chris set to 2 // (seconds) Time to wait for hotend to "settle" in M109
+#define TEMP_RESIDENCY_TIME     10  // (seconds) Time to wait for hotend to "settle" in M109
 #define TEMP_WINDOW              1  // (°C) Temperature proximity for the "temperature reached" timer
 #define TEMP_HYSTERESIS          3  // (°C) Temperature proximity considered "close enough" to the target
 
-#define TEMP_BED_RESIDENCY_TIME 10  // CO TODO Chris set to 2 // (seconds) Time to wait for bed to "settle" in M190
+#define TEMP_BED_RESIDENCY_TIME 10  // (seconds) Time to wait for bed to "settle" in M190
 #define TEMP_BED_WINDOW          1  // (°C) Temperature proximity for the "temperature reached" timer
 #define TEMP_BED_HYSTERESIS      3  // (°C) Temperature proximity considered "close enough" to the target
 
@@ -753,7 +753,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 200, 200, 12, 152 } // CO was { 150, 150, 10, 150 }
+#define DEFAULT_MAX_FEEDRATE          { 200, 200, 12, 120 } // CO was { 200, 200, 12, 152 } // CO was { 150, 150, 10, 150 }
                                       // CO TODO from Chris: { 200, 200, 30, 80 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
@@ -767,7 +767,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 750, 750, 200, 5000 } // CO was { 750, 750, 100, 5000 }  // CO FB: { 3000, 3000, 300, 10000 }, teaching tech & default: { 500, 500, 100, 5000 }
+#define DEFAULT_MAX_ACCELERATION      { 500, 500, 100, 1000 } // CO was { 750, 750, 200, 5000 }  // CO FB: { 3000, 3000, 300, 10000 }, teaching tech & default: { 500, 500, 100, 5000 }
                                       // CO TODO from Chris: { 1250, 1250, 400, 4000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
@@ -783,9 +783,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          700 // CO was 700   // CO teaching tech & default: 500   // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  2000 // CO was 1000 // CO teaching tech & default: 500   // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   1000 // CO was 750  // CO teaching tech & default: 500   // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION          500 // CO was 700   // CO teaching tech & default: 500   // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  1000 // CO teaching tech & default: 500   // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   500 // CO was 1000  // CO teaching tech & default: 500   // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk limits (mm/s)
@@ -797,8 +797,8 @@
  */
 #define CLASSIC_JERK  // CO TODO ReEnabled since new Junction Deviation has problems
 #if ENABLED(CLASSIC_JERK)
-  #define DEFAULT_XJERK 10.0
-  #define DEFAULT_YJERK 10.0
+  #define DEFAULT_XJERK 8.0 // was 10.0
+  #define DEFAULT_YJERK 8.0 // was 10.0
   #define DEFAULT_ZJERK  0.4 // CO was 0.3
 
   //#define TRAVEL_EXTRA_XYJERK 0.0     // Additional jerk allowance for all travel moves
@@ -1006,11 +1006,11 @@
 //#define NOZZLE_TO_PROBE_OFFSET {-50, -8, -2.12}
 
 // DD
-#define NOZZLE_TO_PROBE_OFFSET {49, 0, -2.4}
+#define NOZZLE_TO_PROBE_OFFSET {49, 0, -1.46}
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 5 // CO was 10
+#define PROBING_MARGIN 10 // CO back to 10 from 5 // CO was 10
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED (120*60) // CO Teching Tech video: 10000, default: 8000
@@ -1142,7 +1142,7 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 235
+#define X_BED_SIZE 240 // offset of 4 (but set as offset)
 #define Y_BED_SIZE 235
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
@@ -1191,7 +1191,7 @@
  */
 #define FILAMENT_RUNOUT_SENSOR  // CO Enabled
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-  #define FIL_RUNOUT_ENABLED_DEFAULT true // Enable the sensor on startup. Override with M412 followed by M500.
+  #define FIL_RUNOUT_ENABLED_DEFAULT false // Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   1     // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
   #define FIL_RUNOUT_STATE     HIGH // CO was LOW   // Pin state indicating that filament is NOT present.
   #define FIL_RUNOUT_PULLUP          // Use internal pullup for filament runout pins.
@@ -1269,7 +1269,7 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-#define DEBUG_LEVELING_FEATURE // CO enabled from FB
+#define DEBUG_LEVELING_FEATURE // CO enabled
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
   // Gradually reduce leveling correction until a set height is reached,
@@ -1333,12 +1333,12 @@
 
   #define MESH_EDIT_GFX_OVERLAY   // CO enabled // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 1 // CO back to 1, was 5 // CO tried 0 and 1, problem is that probe cannot reach it, default: 1              // Set Mesh bounds as an inset region of the bed
+  #define MESH_INSET 1 // Set Mesh bounds as an inset region of the bed
   #define GRID_MAX_POINTS_X 10      // Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   #define UBL_MESH_EDIT_MOVES_Z     // Sophisticated users prefer no movement of nozzle
-  //#define UBL_SAVE_ACTIVE_ON_M500   // CO disabled again // CO enabled // Save the currently active mesh in the current slot on M500
+  //#define UBL_SAVE_ACTIVE_ON_M500   // Save the currently active mesh in the current slot on M500
 
   //#define UBL_Z_RAISE_WHEN_OFF_MESH 2.5 // When the nozzle is off the mesh, this value is used
                                           // as the Z-Height correction value.
@@ -1806,7 +1806,7 @@
 //
 //  Set this option if CLOCKWISE causes values to DECREASE
 //
-#define REVERSE_ENCODER_DIRECTION
+// #define REVERSE_ENCODER_DIRECTION // CO disabled
 
 //
 // This option reverses the encoder direction for navigating LCD menus.

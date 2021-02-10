@@ -651,14 +651,14 @@
  * the position of the toolhead relative to the workspace.
  */
 
-#define SENSORLESS_BACKOFF_MM  { 0, 0 }     // CO was 2, 2 // (mm) Backoff from endstops before sensorless homing
+#define SENSORLESS_BACKOFF_MM  { 1, 1 }     // CO (was 0, 0) // (mm) Backoff from endstops before sensorless homing
 
-#define HOMING_BUMP_MM      { 5, 5, 2 }       // (mm) Backoff from endstops after first bump
-#define HOMING_BUMP_DIVISOR { 2, 2, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
+#define HOMING_BUMP_MM      { 0, 0, 2 }     // CO since recommanded for TMC StallGuard was 5,5,2  // (mm) Backoff from endstops after first bump
+#define HOMING_BUMP_DIVISOR { 2, 2, 2 }     // CO was 2,2,4  // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
-#define HOMING_BACKOFF_POST_MM { 10, 10, 0 }   // CO DUAL ENDSTOP // CO enabled // (mm) Backoff from endstops after homing
+#define HOMING_BACKOFF_POST_MM { 10, 10, 0 }   // CO enabled // (mm) Backoff from endstops after homing
 
-//#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // CO enabled // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
 
@@ -1252,7 +1252,7 @@
   #endif
 
   // This allows hosts to request long names for files and folders with M33
-  //#define LONG_FILENAME_HOST_SUPPORT
+  #define LONG_FILENAME_HOST_SUPPORT   // CO Enabled because of TFT3.5
 
   // Enable this option to scroll long filenames in the SD card menu
   //#define SCROLL_LONG_FILENAMES
@@ -1277,7 +1277,7 @@
   /**
    * Auto-report SdCard status with M27 S<seconds>
    */
-  //#define AUTO_REPORT_SD_STATUS
+  #define AUTO_REPORT_SD_STATUS  // CO Enabled (seen in Octoprint EEprom Editor)
 
   /**
    * Support for USB thumb drives using an Arduino USB Host Shield or
@@ -1339,7 +1339,7 @@
    *
    * :[ 'LCD', 'ONBOARD', 'CUSTOM_CABLE' ]
    */
-  //#define SDCARD_CONNECTION LCD
+  #define SDCARD_CONNECTION ONBOARD // CO was LCD (changed because of TFT35)
 
 #endif // SDSUPPORT
 
@@ -1653,7 +1653,7 @@
 #define LIN_ADVANCE // CO enabled
 #if ENABLED(LIN_ADVANCE)
   //#define EXTRA_LIN_ADVANCE_K // Enable for second linear advance constants
-  #define LIN_ADVANCE_K 0.0     // CO was 0.22    // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 0.05    // CO was 0.22    // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG            // If enabled, this will generate debug information output over USB.
   //#define EXPERIMENTAL_SCURVE // Enable this option to permit S-Curve Acceleration
 #endif
@@ -2548,16 +2548,16 @@
 
   #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY  78 // CO was 69
+    #define X_STALL_SENSITIVITY  80
     #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-    #define Y_STALL_SENSITIVITY  77 // CO was 65
+    #define Y_STALL_SENSITIVITY  77
     #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
     //#define Z_STALL_SENSITIVITY  20   // CO DUAL SENSORLESS Z
     //#define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define Z3_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define Z4_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define SPI_ENDSTOPS              // TMC2130 only
-    //#define IMPROVE_HOMING_RELIABILITY // CO Disabled, maybe it helps false triggering x sensorless homing // CO Enabled
+    // #define IMPROVE_HOMING_RELIABILITY //CO It really doesn't work... // CO Reenabled // CO Disabled, maybe it helps false triggering x sensorless homing // CO Enabled
   #endif
 
   /**
@@ -3270,7 +3270,7 @@
  */
 #define HOST_ACTION_COMMANDS // CO enabled
 #if ENABLED(HOST_ACTION_COMMANDS)
-  //#define HOST_PROMPT_SUPPORT // CO disabled, when answered on printer not updated in octoprint // CO, retry // CO disabled (was annoying) // CO enabled
+  #define HOST_PROMPT_SUPPORT // CO Again enabled because of TFT3.5 // CO disabled, when answered on printer not updated in octoprint // CO, retry // CO disabled (was annoying) // CO enabled
   //#define HOST_START_MENU_ITEM  // Add a menu item that tells the host to start
 #endif
 
